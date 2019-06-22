@@ -29,12 +29,27 @@ public class Application {
      * launch the application
      */
     public static void main(String[] args) throws Exception {
+        /**
+         * 设置 ApplicationConfig
+         */
+        ApplicationConfig applicationConfig = new ApplicationConfig("dubbo-demo-api-provider");
+        /**
+         * 设置 RegistryConfig
+         */
+        RegistryConfig registryConfig = new RegistryConfig("zookeeper://127.0.0.1:2181");
+        /**
+         * 设置 ServiceConfig
+         */
         ServiceConfig<DemoServiceImpl> service = new ServiceConfig<>();
-        service.setApplication(new ApplicationConfig("dubbo-demo-api-provider"));
-        service.setRegistry(new RegistryConfig("multicast://224.5.6.7:1234"));
+        service.setApplication(applicationConfig);
+        service.setRegistry(registryConfig);
         service.setInterface(DemoService.class);
         service.setRef(new DemoServiceImpl());
+        /**
+         * 服务暴露
+         */
         service.export();
+        System.out.println("服务发布成功！");
         System.in.read();
     }
 }
